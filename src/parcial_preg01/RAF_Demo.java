@@ -13,7 +13,7 @@ import javax.swing.JOptionPane;
 public class RAF_Demo {
 //-----------------------------------------------
 private static String           ARCHIVO = "C:\\Users\\Usuario\\Desktop\\Parcial_Preg01\\src\\parcial_preg01\\PRODUCTOS.DAT";
-private static int              W       = 45;  //Longitud del Registro
+private static int              W       = 104;  //Longitud del Registro
 private static Scanner          SCN = new Scanner(System.in);
 private static RandomAccessFile RAF;
 private static RAF_Library      LIB = new RAF_Library();
@@ -64,27 +64,18 @@ long i,T,N,P;
    return P;
 }
 //-----------------------------------------------
-private static String RegistrarUSUARIO(String S) throws IOException, InterruptedException {
-String TMP;
-   
-      System.out.print("Id                  : ");
-      TMP = S.trim();
-   if((BuscarCodigo(TMP)>0)||(LIB.ValidacionOK(TMP,"",3,3,"0123456789")==false))
-       JOptionPane.showMessageDialog(null, "Ingrese una ID correcta");
-   return TMP;
-}  
-//-----------------------------------------------
-//-----------------------------------------------
-private static String RegistrarCONTRA(String S) {
-String TMP;
-      
-         System.out.print("Nombre              : ");
-         TMP = S.trim();
-      if(!LIB.ValidacionOK(TMP,"",7,20,"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz. -0123456789"))
-          JOptionPane.showMessageDialog(null, "Ingrese un nombre correcto");
-      TMP = TMP + LIB.Replicate(' ',20-TMP.length());
-   return TMP;
-}  
+public static String RegistrarUsuario(){
+        String TMP;
+        TMP = RAF_Frame.txtNombre.getText();
+        TMP = TMP + LIB.Replicate(' ',20-TMP.length());
+        return TMP;
+    }
+public static String RegistrarContra(){
+        String TMP;
+        TMP = RAF_Frame.txtPlaca.getText();
+        TMP = TMP + LIB.Replicate(' ',20-TMP.length());
+        return TMP;
+    }
 //-----------------------------------------------
 //-----------------------------------------------
 public static void Ingreso(String s1,String s2) throws IOException, InterruptedException {
@@ -98,8 +89,8 @@ boolean Sw;
    //....................................................................................
    FLAG = ' ';
    //....................................................................................
-   USUARIO = RegistrarUSUARIO(s1);
-   CONTRA = RegistrarCONTRA(s2);
+   USUARIO = RegistrarUsuario(s1);
+   CONTRA = RegistrarContra(s2);
    //....................................................................................
    //....................................................................................
    BuildRecord();
@@ -145,8 +136,8 @@ long P;
          (TMP.charAt(0)=='s')) {
          //....................................................................................
          FLAG = ' ';
-         USUARIO = RegistrarUSUARIO(s1);
-         CONTRA = RegistrarCONTRA(s3);
+         USUARIO = RegistrarUsuario(s1);
+         CONTRA = RegistrarContra(s3);
          //....................................................................................
          BuildRecord();
          //....................................................................................
