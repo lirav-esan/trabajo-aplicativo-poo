@@ -12,45 +12,32 @@ import javax.swing.JOptionPane;
 
 public class RAF_Demo {
 //-----------------------------------------------
-private static String           ARCHIVO = "C:\\Users\\laboratorioesan\\Desktop\\Parcial_Preg01\\src\\parcial_preg01\\PRODUCTOS.DAT";
-private static int              W       = 55;  //Longitud del Registro
+private static String           ARCHIVO = "C:\\Users\\Usuario\\Desktop\\Parcial_Preg01\\src\\parcial_preg01\\PRODUCTOS.DAT";
+private static int              W       = 45;  //Longitud del Registro
 private static Scanner          SCN = new Scanner(System.in);
 private static RandomAccessFile RAF;
 private static RAF_Library      LIB = new RAF_Library();
-private static String[]         UnidadMedida = {"Null","Automovil","Omnibus","Motocicleta"};
 private static byte[]           BUFFER  = new byte[W];
-public static String ID,RECORD,NOMBRE,PLACA,PRECIO,FECHA;
+public static String USUARIO,RECORD,CONTRA,PLACA,PRECIO,FECHA;
 public static char FLAG,TIPO,ESTADO;
 //-----------------------------------------------
 //-----------------------------------------------
 private static void BuildRecord() {
    RECORD = FLAG + 
-            ID + " " + 
-            NOMBRE + " " + 
-            PLACA + " " + 
-            TIPO + " " + 
-            PRECIO + " " + 
-            FECHA + " " + 
-            ESTADO;
+            USUARIO + " " + 
+            CONTRA ;
 }
 //-----------------------------------------------
 private static void LoadFields() {
    FLAG = RECORD.charAt(0);
-   ID = RECORD.substring(1,4);
-   NOMBRE = RECORD.substring(5,25);
-   PLACA = RECORD.substring(26,33);
-   TIPO = RECORD.charAt(34);
-   PRECIO = RECORD.substring(35,41);
-   FECHA = RECORD.substring(42,50);
-   ESTADO = RECORD.charAt(51);
+   USUARIO = RECORD.substring(1,21);
+   CONTRA = RECORD.substring(22,42);
 }
 //-----------------------------------------------
 private static void ViewFields() {
 String TMP;
-       TMP = UnidadMedida[(int)(TIPO)-48];
-       System.out.println("Nombre              : " + NOMBRE);
+       System.out.println("Nombre              : " + CONTRA);
        System.out.println("Placa               : " + PLACA);
-       System.out.println("Tipo                : " + TMP + LIB.Replicate(' ',10-TMP.length()));
        System.out.println("Precio              : " + PRECIO);
        System.out.println("Fecha de Vencimiento: " + FECHA.substring(6,8) + '/' + FECHA.substring(4,6) + '/' + FECHA.substring(0,4));
        System.out.println("Activo              : " + (ESTADO=='1'?"Activo":"Inactivo"));
@@ -68,7 +55,7 @@ long i,T,N,P;
        RAF.read(BUFFER);
        RECORD = LIB.BufferToString(BUFFER);
        LoadFields();
-       if(ID.equals(CODIGO)==true) {
+       if(USUARIO.equals(CODIGO)==true) {
           P = i;
        }
        i++;
@@ -77,7 +64,7 @@ long i,T,N,P;
    return P;
 }
 //-----------------------------------------------
-private static String RegistrarID(String S) throws IOException, InterruptedException {
+private static String RegistrarUSUARIO(String S) throws IOException, InterruptedException {
 String TMP;
    
       System.out.print("Id                  : ");
@@ -88,7 +75,7 @@ String TMP;
 }  
 //-----------------------------------------------
 //-----------------------------------------------
-private static String RegistrarNOMBRE(String S) {
+private static String RegistrarCONTRA(String S) {
 String TMP;
       
          System.out.print("Nombre              : ");
@@ -100,74 +87,7 @@ String TMP;
 }  
 //-----------------------------------------------
 //-----------------------------------------------
-private static String RegistrarPLACA(String S) {
-String TMP;
-   
-      System.out.print("Placa                  : ");
-      TMP = S.trim();
-   if(!LIB.ValidacionOK(TMP,"",6,6,"ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"))
-       JOptionPane.showMessageDialog(null, "Ingrese una placa correcta");
-   TMP = LIB.Replicate(' ',4-TMP.length()) + TMP;
-   return TMP;
-}  
-//-----------------------------------------------
-//-----------------------------------------------
-private static char RegistrarTIPO(String S) {
-String TMP;
-   
-      System.out.print("Tipo Vehiculo          : ");
-      TMP = S;
-   if(!LIB.ValidacionOK(TMP,"",1,1,"0123"))
-       JOptionPane.showMessageDialog(null, "Ingrese un tipo correcto");
-   return TMP.charAt(0);
-}  
-//-----------------------------------------------
-//-----------------------------------------------
-private static String RegistrarPRECIO(String S) {
-String TMP;
-int L,P;
-long T;
-boolean Sw;
-   
-      System.out.print("Precio              : ");
-      TMP = S.trim();
-      L  = TMP.length();
-      Sw = LIB.ValidacionOK(TMP,"",1,6,"0.123456789");
-      T  = LIB.TotalOcurrencias(TMP,'.');
-      P  = LIB.PosicionIzquierda(TMP,'.');
-   if( (Sw==false) || (T!=1) || (P<=0) || (P!=L-3) )
-       JOptionPane.showMessageDialog(null, "Ingrese un precio correcto");
-   TMP = LIB.Replicate(' ',6-TMP.length()) + TMP;
-   return TMP;
-}  
-//-----------------------------------------------
-//-----------------------------------------------
-private static String RegistrarFECHA(String S) {
-String TMP;
-   
-      System.out.print("Fecha de Vencimiento: ");
-      TMP = S;
-   if(!LIB.FechaOK(TMP,2024,2025,false))
-       JOptionPane.showMessageDialog(null, "Ingrese una fecha correcta");
-   return TMP.substring(6,10) + TMP.substring(3,5) + TMP.substring(0,2);
-}  
-//-----------------------------------------------
-//-----------------------------------------------
-
-private static char RegistrarESTADO(String S) {
-String TMP;
-   
-      System.out.print("Activo              : ");
-      TMP = S;
-   if(!LIB.ValidacionOK(TMP,"",1,1,"01"))
-       JOptionPane.showMessageDialog(null, "Ingrese un estado correcto");
-   return TMP.charAt(0);
-}  
-//-----------------------------------------------
-//-----------------------------------------------
-//-----------------------------------------------
-//-----------------------------------------------
-public static void Ingreso(String s1,String s2,String s3,String s4,String s5,String s6,String s7) throws IOException, InterruptedException {
+public static void Ingreso(String s1,String s2) throws IOException, InterruptedException {
 String TMP,LINEA;
 int L,P;
 long T,N;
@@ -178,13 +98,8 @@ boolean Sw;
    //....................................................................................
    FLAG = ' ';
    //....................................................................................
-   ID = RegistrarID(s1);
-   NOMBRE = RegistrarNOMBRE(s2);
-   PLACA = RegistrarPLACA(s3);
-   TIPO = RegistrarTIPO(s4);
-   PRECIO = RegistrarPRECIO(s5);
-   FECHA = RegistrarFECHA(s6);
-   ESTADO = RegistrarESTADO(s7);
+   USUARIO = RegistrarUSUARIO(s1);
+   CONTRA = RegistrarCONTRA(s2);
    //....................................................................................
    //....................................................................................
    BuildRecord();
@@ -230,12 +145,8 @@ long P;
          (TMP.charAt(0)=='s')) {
          //....................................................................................
          FLAG = ' ';
-         NOMBRE = RegistrarNOMBRE(s2);
-         PLACA = RegistrarPLACA(s3);
-         TIPO = RegistrarTIPO(s4);
-         PRECIO = RegistrarPRECIO(s5);
-         FECHA = RegistrarFECHA(s6);
-         ESTADO = RegistrarESTADO(s7);
+         USUARIO = RegistrarUSUARIO(s1);
+         CONTRA = RegistrarCONTRA(s3);
          //....................................................................................
          BuildRecord();
          //....................................................................................
@@ -348,11 +259,9 @@ long T,N;
        RECORD = LIB.BufferToString(BUFFER);
        LoadFields();
        if(FLAG==' ') {
-          TMP = UnidadMedida[(int)(TIPO-30)];
-          System.out.println(ID + ' ' +
-                             NOMBRE + ' ' +
+          System.out.println(USUARIO + ' ' +
+                             CONTRA + ' ' +
                              PLACA + ' ' +
-                             TMP + LIB.Replicate(' ',10-TMP.length()) +
                              PRECIO + ' ' +
                              FECHA.substring(6,8) + '/' + FECHA.substring(4,6) + '/' + FECHA.substring(0,4) + ' ' +
                              (ESTADO=='1'?"Activo":"Inactivo"));
@@ -360,7 +269,6 @@ long T,N;
    }
    RAF.close();
    System.out.println("\n\nPulse [ENTER] para Salir!!!");
-   TMP = SCN.nextLine();
 }
 //-----------------------------------------------
 public static char MenuPrincipal() throws IOException, InterruptedException {
