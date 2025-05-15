@@ -12,7 +12,7 @@ import javax.swing.JOptionPane;
 
 public class RAF_Demo {
 //-----------------------------------------------
-private static String           ARCHIVO = "C:\\Users\\Usuario\\Desktop\\Parcial_Preg01\\src\\parcial_preg01\\PRODUCTOS.DAT";
+private static String           ARCHIVO = "Usuarios.DAT"; // CAMBIAR DE ACUERDO AL PC
 private static int              W       = 104;  //Longitud del Registro
 private static Scanner          SCN = new Scanner(System.in);
 private static RandomAccessFile RAF;
@@ -28,11 +28,17 @@ private static void BuildRecord() {
             CONTRA ;
 }
 //-----------------------------------------------
-private static void LoadFields() {
-   FLAG = RECORD.charAt(0);
-   USUARIO = RECORD.substring(1,21);
-   CONTRA = RECORD.substring(22,42);
-}
+private static void LoadFields(int K) {
+       ID = RECORD.substring(W*K + 0,W*K + 2);
+       NOMBRES= RECORD.substring(W*K + 3,W*K + 43);
+       USUARIO = RECORD.substring(W*K + 44,W*K + 59).trim();
+       CONTRA = RECORD.substring(W*K + 60,W*K + 70).trim();
+       FECHAINI = RECORD.substring(W*K + 71,W*K + 79);
+       HORAINI = RECORD.substring(W*K +  80,W*K +  86);
+       FECHAFIN = RECORD.substring(W*K + 87,W*K + 95);
+       HORAFIN = RECORD.substring(W*K + 96,W*K  + 102);
+       ESTADO = RECORD.charAt(W*K + 103);
+    }
 //-----------------------------------------------
 private static void ViewFields() {
 String TMP;
